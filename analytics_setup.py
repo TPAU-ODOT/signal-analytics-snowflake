@@ -68,7 +68,11 @@ def analytics_sproc(session: Session, current_date_str, is_last_date_str) -> str
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = (current_date + timedelta(days=1)).strftime('%Y-%m-%d')
 
-    con = ibis.backends.snowflake.Backend.from_snowpark(session)
+    con = ibis.backends.snowflake.Backend.from_snowpark(session, create_object_udfs=False)
+    # Ibis sets session timezone to UTC by default, change to Pacific
+    con.raw_sql("ALTER SESSION SET TIMEZONE = 'America/Los_Angeles'")
+
+    # Load raw data for the date range
     raw_data = con.table("XD_TRAVEL_TIME").select(
         XD='XD_ID',
         TIMESTAMP='MEASUREMENT_TSTAMP',
@@ -228,6 +232,8 @@ session.sproc.register(
 )
 
 print("Stored procedure created successfully!")
+os.chdir(os.path.dirname(__file__))
+
 
 
 # Run the stored procedure
