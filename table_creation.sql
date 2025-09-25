@@ -54,6 +54,12 @@ CREATE TABLE FREEFLOW (
     TRAVEL_TIME_SECONDS FLOAT
 );
 
+-- Create geometry table for XD segments
+CREATE TABLE XD_GEOM (
+  XD INTEGER,
+  GEOM GEOGRAPHY
+);
+
 --Create a run stats table for tracking pipeline runs
 CREATE
 OR REPLACE TABLE run_stats (
