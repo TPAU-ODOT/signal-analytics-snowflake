@@ -201,7 +201,7 @@ def analytics_sproc(session: Session, current_date_str, is_last_date_str) -> str
         con.insert("TRAVEL_TIME_ANALYTICS", df_anomaly)
         con.insert("CHANGEPOINTS", df_changepoint)
         if is_last_date:
-            con.insert("FREEFLOW", freeflow)
+            con.create_table("FREEFLOW", freeflow, overwrite=True)
         session.sql("COMMIT").collect()
         return 'success'
     except Exception as e:
