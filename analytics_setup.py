@@ -170,7 +170,8 @@ def analytics_sproc(session: Session, current_date_str, is_last_date_str) -> str
         upper_bound=0.96,
         lower_bound=0.03,
         return_sql=True,
-        dialect='duckdb'
+        dialect='duckdb',
+        recent_days_for_validation=3
     )
 
     
